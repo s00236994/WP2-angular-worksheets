@@ -1,1 +1,13 @@
-<p>car-list works!</p>
+<h2>Car List</h2>
+
+@if (cars$ | async; as cars) {
+
+<ul>
+  @for (car of cars; track car._id) {
+  <li>{{ car.make }} {{ car.model }} {{ car.year }}</li>
+  }
+</ul>
+} @else {
+Loading cars...
+
+}
