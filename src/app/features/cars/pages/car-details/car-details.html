@@ -1,0 +1,13 @@
+<h2>Car Details</h2>
+
+@if (car(); as carData) {
+  <div>
+    <h1>{{ carData.model }}</h1>
+    <p>Make: {{ carData.make }}</p>
+    <p>Year: {{ carData.year }}</p>
+  </div>}
+ @else {
+  <p>Loading car details...</p>
+} 
+
+    The route parameter id is {{id()}}
