@@ -1,5 +1,7 @@
- <div class="card">
+<div class="card">
   <h3>{{ car().make }} {{ car().model }}</h3>
 
-  @if(car().year){ <p>Year:  {{ car().year }}</p>}
- </div>
+  @if(car().year){ <p>Year: {{ car().year }}</p>}
+
+  <a [routerLink]="['/cars', car()._id]">View Profile</a>
+</div>
