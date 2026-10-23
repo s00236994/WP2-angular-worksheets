@@ -1,0 +1,30 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
+  <h2>Car Details Form</h2>
+
+
+  <!-- Make Field -->
+  <div class="form-group">
+    <label for="make">Make:</label>
+    <input id="make" type="text" formControlName="make" placeholder="e.g. Toyota" />
+  </div>
+
+  <!-- Model Field -->
+  <div class="form-group">
+    <label for="model">Model:</label>
+    <input id="model" type="text" formControlName="model" placeholder="e.g. Corolla" />
+    
+  </div>
+
+  <!-- Year Field -->
+  <div class="form-group">
+    <label for="year">Year:</label>
+    <input id="year" type="number" formControlName="year" placeholder="e.g. 2022" />
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="button-group">
+    <button type="submit"     >
+     Save Car</button>
+
+  </div>
+</form>
