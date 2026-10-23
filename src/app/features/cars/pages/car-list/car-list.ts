@@ -5,11 +5,12 @@ import { Car } from '../../models/car.model';
 import { CarService } from '../../services/car.service';
 import { OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { CarCard } from '../car-card/car-card';
 
 
 @Component({
   selector: 'app-car-list',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, CarCard],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
 })

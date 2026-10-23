@@ -1,13 +1,12 @@
 <h2>Car List</h2>
 
 @if (cars$ | async; as cars) {
-
-<ul>
+  <div class="grid">
   @for (car of cars; track car._id) {
-  <li>{{ car.make }} {{ car.model }} {{ car.year }}</li>
+    <app-car-card [car]="car" />
   }
-</ul>
+  </div>
+
 } @else {
 Loading cars...
-
 }
