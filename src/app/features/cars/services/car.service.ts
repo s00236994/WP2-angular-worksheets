@@ -15,42 +15,52 @@ export class CarService {
 
 private apiUrl = 'http://localhost:3000/api/v1/cars'; 
 
-  getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.apiUrl)
-  }
+ getCars(): Observable<Car[]> {
+  return this.http
+    .get<Car[]>(this.apiUrl)
+    .pipe(catchError((err) => this.handleError(err)));
+}
 
-  getCarById(id:string): Observable<Car> {
-    return this.http.get<Car>(`${this.apiUrl}/${id}`);
+  getCarById(id: string): Observable<Car> {
+    return this.http.get<Car>(`${this.apiUrl}/${id}`)
+     .pipe(catchError((err) => this.handleError(err)));
   }
 
   addCar(car: CreateCarDto): Observable<Car> {
     return this.http.post<Car>(this.apiUrl, car)
-    .pipe(
-      catchError(this.handleError)
-    )
+      .pipe(
+        catchError((err) => this.handleError(err))
+      )
   }
+
 
 
   
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
+ private handleError(error: HttpErrorResponse): Observable<never> {
+    let message: string;
 
-      if (error.status == 401 || error.status == 403) {
-
-        console.error('authorisation issue ' , error.status );
-         return throwError(() => new Error('You are not authorised for that action'));
-
-      }
-      console.error(
-        `Backend returned code ${error.status}, body was: `, error.error);
+    switch (error.status) {
+      case 0:
+        message = 'Cannot reach the server. Check that the API is running.';
+        break;
+      case 400:
+        message = 'Some of the data was not valid.';
+        break;
+      case 401:
+        message = 'Please log in to continue.';
+        break;
+      case 403:
+        message = 'You are not allowed to do that.';
+        break;
+      case 404:
+        message = 'That car could not be found.';
+        break;
+      default:
+        message = 'Something went wrong on the server. Please try again later.';
     }
-    // Return an observable with a user-facing error message.
-    return throwError(() => new Error('Something bad happened; please try again later.'));
-  }
 
+    // Full details for the developer, a short message for the user
+    console.error(`HTTP ${error.status} from ${error.url}`, error);
+    return throwError(() => new Error(message));
+  }
 }
