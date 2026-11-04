@@ -1,12 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Car } from '../../models/car.model';
+import { CreateCarDto } from '../../models/car.model';
 import { CarService } from '../../services/car.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-car-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
 })
@@ -16,27 +16,40 @@ export class CarForm {
   private carService = inject(CarService);
   private router = inject(Router);
 
-   carForm = this.formBuilder.group({
+  saving = signal(false);
+  saveError = signal<string | null>(null);
+
+
+   carForm = this.formBuilder.nonNullable.group({
      make: ['', Validators.required],
      model: ['', Validators.required],
-     year: ['']
+     year: this.formBuilder.control<number|null> (null)
    });
 
+
 onSubmit(): void {
-      const carData: Car = this.carForm.value as Car;
-      console.log('Submitted Car:', carData);
-      
-      this.carService.addCar(carData).subscribe({
-        next: (response) => {
-          console.log('Car added successfully:', response);
-          this.router.navigate(['/cars']); 
-        },
-        error: (error) => {
-          console.error('Error adding car:', error);
-        }
-      });
-    }
+
+
+    const { make, model, year } = this.carForm.getRawValue();
+    const newCar: CreateCarDto = { make, model, year: year ?? undefined };
+
+    this.saving.set(true);
+    this.saveError.set(null);
+
+    this.carService.addCar(newCar).subscribe({
+      next: (response) => {
+        console.log('Car added successfully:', response);
+        this.router.navigate(['/cars']);
+      },
+    error: (err: Error) => {
+      this.saveError.set(err.message);
+      this.saving.set(false);
+    },
+    });
   }
+
+  }
+
 
 
 

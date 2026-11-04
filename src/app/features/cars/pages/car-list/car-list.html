@@ -1,12 +1,18 @@
-<h2>Car List</h2>
+<div class="car-list-container">
+  <h2>Car Inventory</h2>
 
-@if (cars$ | async; as cars) {
-  <div class="grid">
-  @for (car of cars; track car._id) {
-    <app-car-card [car]="car" />
+  @let s = state();
+  @if (s.status === 'loading') {
+    <p>Loading cars...</p>
+  } @else if (s.status === 'error') {
+    <p> {{ s.message }}</p>
+  } @else if (s.data.length === 0) {
+    <p>No cars available at the moment.</p>
+  } @else {
+    <div class="grid">
+      @for (car of s.data; track car._id) {
+        <app-car-card [car]="car" />
+      }
+    </div>
   }
-  </div>
-
-} @else {
-Loading cars...
-}
+</div>
