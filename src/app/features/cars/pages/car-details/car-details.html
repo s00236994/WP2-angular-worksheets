@@ -1,13 +1,15 @@
 <h2>Car Details</h2>
 
-@if (car(); as carData) {
-  <div>
-    <h1>{{ carData.model }}</h1>
-    <p>Make: {{ carData.make }}</p>
-    <p>Year: {{ carData.year }}</p>
-  </div>}
- @else {
-  <p>Loading car details...</p>
-} 
+<p> Car Id is {{id()}}</p>
 
-    The route parameter id is {{id()}}
+@let s = state();
+@if (s.status === 'loading') {
+  <p>Loading car details...</p>
+} @else if (s.status === 'error') {
+  <p >{{ s.message }}</p>
+} @else {
+  <h2>{{ s.data.make }} {{ s.data.model }}</h2>
+  @if (s.data.year) {
+    <p>Year: {{ s.data.year }}</p>
+  }
+}
