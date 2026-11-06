@@ -41,12 +41,13 @@
   </mat-form-field>
 
   <!-- Action Buttons -->
-  @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
+   @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
   <div class="button-group">
-    <button type="submit" [disabled]="saving()">
+    <button matButton="filled" type="submit" [disabled]="saving()">
       {{ saving() ? 'Saving...' : 'Save car' }}
     </button>
-    <a routerLink="/cars">Cancel</a>
+    <a matButton routerLink="/cars">Cancel</a>
   </div>
+
 
 </form>
