@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-car-form',
@@ -16,7 +17,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressBarModule
   ],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
@@ -31,9 +33,9 @@ export class CarForm {
   saveError = signal<string | null>(null);
 
 
-   readonly currentYear = new Date().getFullYear();
+  readonly currentYear = new Date().getFullYear();
 
-   carForm = this.formBuilder.nonNullable.group({
+  carForm = this.formBuilder.nonNullable.group({
     make: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
     model: ['', [Validators.required, Validators.maxLength(30)]],
     year: this.formBuilder.control<number | null>(null, [Validators.min(1950), Validators.max(this.currentYear + 1),]),
@@ -41,8 +43,7 @@ export class CarForm {
 
 
 
-onSubmit(): void {
-
+  onSubmit(): void {
 
     const { make, model, year } = this.carForm.getRawValue();
     const newCar: CreateCarDto = { make, model, year: year ?? undefined };
@@ -50,19 +51,21 @@ onSubmit(): void {
     this.saving.set(true);
     this.saveError.set(null);
 
+    this.carForm.disable();
+
     this.carService.addCar(newCar).subscribe({
       next: (response) => {
         console.log('Car added successfully:', response);
         this.router.navigate(['/cars']);
       },
-    error: (err: Error) => {
-      this.saveError.set(err.message);
-      this.saving.set(false);
-    },
+      error: (err: Error) => {
+        this.carForm.enable();
+        this.saveError.set(err.message);
+        this.saving.set(false);
+      },
     });
   }
-
-  }
+}
 
 
 

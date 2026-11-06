@@ -1,6 +1,9 @@
 <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
   <h2>Car Details Form</h2>
 
+  @if (saving()) {
+  <mat-progress-bar mode="indeterminate" />
+  }
 
   <!-- Make Field -->
   <mat-form-field appearance="outline">
