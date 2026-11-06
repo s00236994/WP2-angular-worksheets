@@ -6,6 +6,13 @@
   <mat-form-field appearance="outline">
     <mat-label>Make</mat-label>
     <input matInput formControlName="make" placeholder="e.g. Toyota" />
+    @if (carForm.controls.make.hasError('required')) {
+    <mat-error>Make is required</mat-error>
+    } @else if (carForm.controls.make.hasError('minlength')) {
+    <mat-error>Make must be at least 2 characters</mat-error>
+    } @else if (carForm.controls.make.hasError('maxlength')) {
+    <mat-error>Make must be 30 characters or fewer</mat-error>
+    }
   </mat-form-field>
 
 
@@ -13,6 +20,11 @@
   <mat-form-field appearance="outline">
     <mat-label>Model</mat-label>
     <input matInput formControlName="model" placeholder="e.g. Corolla" />
+    @if (carForm.controls.model.hasError('required')) {
+    <mat-error>Model is required</mat-error>
+    } @else if (carForm.controls.model.hasError('maxlength')) {
+    <mat-error>Model must be 30 characters or fewer</mat-error>
+    }
   </mat-form-field>
 
 
@@ -21,6 +33,11 @@
     <mat-label>Year</mat-label>
     <input matInput formControlName="year" type="number" placeholder="e.g. 2026" />
     <mat-hint>Optional</mat-hint>
+    @if (carForm.controls.year.hasError('min')) {
+    <mat-error>Year must be at least 1950</mat-error>
+    } @else if (carForm.controls.year.hasError('max')) {
+    <mat-error>Year must be {{currentYear + 1 }} or earlier</mat-error>
+    }
   </mat-form-field>
 
   <!-- Action Buttons -->
