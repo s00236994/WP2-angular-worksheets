@@ -1,0 +1,11 @@
+.car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 32rem;
+  margin: 1rem auto;
+}
+
+mat-form-field {
+  width: 100%;
+}

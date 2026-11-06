@@ -3,23 +3,25 @@
 
 
   <!-- Make Field -->
-  <div class="form-group">
-    <label for="make">Make:</label>
-    <input id="make" type="text" formControlName="make" placeholder="e.g. Toyota" />
-  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Make</mat-label>
+    <input matInput formControlName="make" placeholder="e.g. Toyota" />
+  </mat-form-field>
+
 
   <!-- Model Field -->
-  <div class="form-group">
-    <label for="model">Model:</label>
-    <input id="model" type="text" formControlName="model" placeholder="e.g. Corolla" />
-    
-  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Model</mat-label>
+    <input matInput formControlName="model" placeholder="e.g. Corolla" />
+  </mat-form-field>
+
 
   <!-- Year Field -->
-  <div class="form-group">
-    <label for="year">Year:</label>
-    <input id="year" type="number" formControlName="year" placeholder="e.g. 2022" />
-  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Year</mat-label>
+    <input matInput formControlName="year" type="number" placeholder="e.g. 2026" />
+    <mat-hint>Optional</mat-hint>
+  </mat-form-field>
 
   <!-- Action Buttons -->
   @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
