@@ -4,12 +4,14 @@
 
 @let s = state();
 @if (s.status === 'loading') {
-  <p>Loading car details...</p>
+<p>Loading car details...</p>
 } @else if (s.status === 'error') {
-  <p >{{ s.message }}</p>
+<p>{{ s.message }}</p>
 } @else {
-  <h2>{{ s.data.make }} {{ s.data.model }}</h2>
-  @if (s.data.year) {
-    <p>Year: {{ s.data.year }}</p>
-  }
+<h2>{{ s.data.make }} {{ s.data.model }}</h2>
+@if (s.data.year) {
+<p>Year: {{ s.data.year }}</p>
+}
+<a matButton="filled" [routerLink]="['/cars', s.data._id, 'edit']">Edit</a>
+
 }
