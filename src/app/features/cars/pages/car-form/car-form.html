@@ -16,6 +16,9 @@
     } @else if (carForm.controls.make.hasError('maxlength')) {
     <mat-error>Make must be 30 characters or fewer</mat-error>
     }
+    @if (carForm.controls.make.hasError('blank')) {
+    <mat-error>Make cannot be only spaces</mat-error>
+    }
   </mat-form-field>
 
 
@@ -27,6 +30,9 @@
     <mat-error>Model is required</mat-error>
     } @else if (carForm.controls.model.hasError('maxlength')) {
     <mat-error>Model must be 30 characters or fewer</mat-error>
+    }
+    @if (carForm.controls.model.hasError('blank')) {
+    <mat-error>Make cannot be only spaces</mat-error>
     }
   </mat-form-field>
 
@@ -44,7 +50,7 @@
   </mat-form-field>
 
   <!-- Action Buttons -->
-   @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
+  @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
   <div class="button-group">
     <button matButton="filled" type="submit" [disabled]="saving()">
       {{ saving() ? 'Saving...' : 'Save car' }}
